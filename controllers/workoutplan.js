@@ -1,4 +1,5 @@
 import { KEY } from "../server.js";
+import axios from "axios";
 
 export const renderData = async (req, res) => {
   res.render("../views/workout.ejs");
@@ -20,15 +21,15 @@ export const postData = async (req, res) => {
     data: {
       goal: formData.goal,
       fitness_level: formData.fitness_level,
-      preferences: Array.isArray(formData["preferences[]"])
-        ? formData["preferences[]"]
-        : [formData["preferences[]"]], // Ensure array
-      health_conditions: Array.isArray(formData["health_conditions[]"])
-        ? formData["health_conditions[]"]
-        : [formData["health_conditions[]"]], // Ensure array
+      preferences: Array.isArray(formData.preferences)
+        ? formData.preferences
+        : [formData.preferences], // Ensure array
+      health_conditions: Array.isArray(formData.health_conditions)
+        ? formData.health_conditions
+        : [formData.health_conditions], // Ensure array
       schedule: {
-        days_per_week: parseInt(formData["schedule[days_per_week]"], 10),
-        session_duration: parseInt(formData["schedule[session_duration]"], 10),
+        days_per_week: parseInt(formData.schedule.days_per_week, 10),
+        session_duration: parseInt(formData.schedule.session_duration, 10),
       },
       plan_duration_weeks: parseInt(formData.plan_duration_weeks, 10),
       lang: formData.lang,
@@ -36,6 +37,8 @@ export const postData = async (req, res) => {
   };
 
   try {
+    // console.log(options.data);
+
     const response = await axios.request(options);
     const workoutData = response.data;
 

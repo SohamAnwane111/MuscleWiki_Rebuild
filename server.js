@@ -184,7 +184,7 @@ passport.deserializeUser((user, cb) => {
 });
 
 app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+  console.log(`Listening on url http://localhost:${port}`);
 });
 
 export {db as db};
