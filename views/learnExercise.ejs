@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercise Information</title>
+  <link rel="stylesheet" href="/styles/exercise-info.css">
+</head>
+<body>
+    <%- include("./partials/header.ejs") -%>
+  <main>
+    <!-- Exercise Search Form -->
+    <form method="POST" action="/learnExercise">
+      <label for="exercise_name">Enter Exercise Name:</label>
+      <input
+        type="text"
+        id="exercise_name"
+        name="exercise_name"
+        placeholder="e.g., Bench Press"
+        value="<%= locals.input || '' %>" 
+        required
+      >
+      <label for="lang">Language:</label>
+      <select id="lang" name="lang">
+        <option value="en" <%= locals.lang === 'en' ? 'selected' : '' %>>English</option>
+        <option value="es" <%= locals.lang === 'es' ? 'selected' : '' %>>Spanish</option>
+        <option value="tr" <%= locals.lang === 'tr' ? 'selected' : '' %>>Turkish</option>
+      </select>
+      <button type="submit">Search</button>
+    </form>
+
+    <!-- Display Exercise Data -->
+    <% if (locals.data && locals.data.result) { %>
+      <div class="exercise-info">
+        <% if (locals.data.result.error) { %>
+          <p class="error"><%= locals.data.result.error %></p>
+        <% } else { %>
+          <h2><%= locals.data.result.exercise_name %></h2>
+          <p><strong>Description:</strong> <%= locals.data.result.description %></p>
+
+          <h3>Primary Muscles:</h3>
+          <ul>
+            <% locals.data.result.primary_muscles.forEach(muscle => { %>
+              <li><%= muscle %></li>
+            <% }); %>
+          </ul>
+
+          <h3>Secondary Muscles:</h3>
+          <ul>
+            <% locals.data.result.secondary_muscles.forEach(muscle => { %>
+              <li><%= muscle %></li>
+            <% }); %>
+          </ul>
+
+          <h3>Equipment Needed:</h3>
+          <ul>
+            <% locals.data.result.equipment_needed.forEach(item => { %>
+              <li><%= item %></li>
+            <% }); %>
+          </ul>
+
+          <h3>Instructions:</h3>
+          <ol>
+            <% locals.data.result.instructions.forEach(step => { %>
+              <li><%= step %></li>
+            <% }); %>
+          </ol>
+        <% } %>
+      </div>
+    <% } else if (locals.input) { %>
+      <p class="error">No data found for "<%= locals.input %>". Please try a different exercise.</p>
+    <% } %>
+  </main>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Plan</title>
+  <link rel="stylesheet" href="/styles/custom-workout.css">
+</head>
+<%- include("./partials/header.ejs") -%>
+<body>
+  <main>
+    <!-- Workout Plan Form -->
+    <form method="POST" action="/customworkout">
+      <!-- Goal -->
+      <label for="goal">Goal:</label>
+      <input type="text" id="goal" name="goal" placeholder="Enter your goal (e.g., Improve overall fitness)" required>
+
+      <!-- Fitness Level -->
+      <label for="fitness_level">Fitness Level:</label>
+      <select id="fitness_level" name="fitness_level" required>
+        <option value="Beginner">Beginner</option>
+        <option value="Intermediate">Intermediate</option>
+        <option value="Advanced">Advanced</option>
+      </select>
+
+      <!-- Workout Preferences -->
+      <label>Workout Preferences:</label>
+      <div id="preferences-container">
+        <input type="text" name="preferences[]" placeholder="e.g., HIIT" required>
+      </div>
+      <button type="button" onclick="addPreference()">Add Preference</button>
+
+      <!-- Health Conditions -->
+      <label>Health Conditions:</label>
+      <div id="health-conditions-container">
+        <input type="text" name="health_conditions[]" placeholder="e.g., Lower back pain" required>
+      </div>
+      <button type="button" onclick="addHealthCondition()">Add Health Condition</button>
+
+      <!-- Schedule -->
+      <fieldset>
+        <legend>Schedule</legend>
+        <label for="days_per_week">Days per Week:</label>
+        <input type="number" id="days_per_week" name="schedule[days_per_week]" min="1" max="7" required>
+        <label for="session_duration">Session Duration (minutes):</label>
+        <input type="number" id="session_duration" name="schedule[session_duration]" min="10" required>
+      </fieldset>
+
+      <!-- Plan Duration -->
+      <label for="plan_duration_weeks">Plan Duration (weeks):</label>
+      <input type="number" id="plan_duration_weeks" name="plan_duration_weeks" min="1" required>
+
+      <!-- Custom Goals -->
+      <label>Custom Goals:</label>
+      <div id="custom-goals-container">
+        <input type="text" name="custom_goals[]" placeholder="e.g., Increase flexibility" required>
+      </div>
+      <button type="button" onclick="addCustomGoal()">Add Custom Goal</button>
+
+      <!-- Language -->
+      <label for="lang">Language:</label>
+      <select id="lang" name="lang" required>
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <!-- Workout Plan Results -->
+    <% if (locals.data && locals.data.result) { %>
+      <div class="workout-plan">
+        <% if (locals.data.result.error) { %>
+          <p class="error"><%= locals.data.result.error %></p>
+        <% } else { %>
+          <h2><%= locals.data.result.seo_title %></h2>
+          <p><%= locals.data.result.seo_content %></p>
+          <p><strong>Goal:</strong> <%= locals.data.result.goal %></p>
+          <p><strong>Fitness Level:</strong> <%= locals.data.result.fitness_level %></p>
+          <p><strong>Plan Duration:</strong> <%= locals.data.result.total_weeks %> weeks</p>
+
+          <h3>Custom Goals:</h3>
+          <ul>
+            <% locals.data.result.custom_goals.forEach(goal => { %>
+              <li><%= goal %></li>
+            <% }) %>
+          </ul>
+
+          <h3>Schedule:</h3>
+          <p><strong>Days per Week:</strong> <%= locals.data.result.schedule.days_per_week %></p>
+          <p><strong>Session Duration:</strong> <%= locals.data.result.schedule.session_duration %> minutes</p>
+
+          <h3>Exercises:</h3>
+          <% locals.data.result.exercises.forEach(day => { %>
+            <h4><%= day.day %></h4>
+            <ul>
+              <% day.exercises.forEach(exercise => { %>
+                <li>
+                  <strong><%= exercise.name %></strong> - <%= exercise.duration %> | 
+                  <%= exercise.repetitions %> | <%= exercise.sets %> sets | 
+                  <%= exercise.equipment %>
+                </li>
+              <% }) %>
+            </ul>
+          <% }) %>
+        <% } %>
+      </div>
+    <% } else { %>
+      <p class="error">No data available to display the workout plan.</p>
+    <% } %>
+  </main>
+
+  <script>
+    function addPreference() {
+      const container = document.getElementById('preferences-container');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'preferences[]';
+      input.placeholder = 'e.g., Yoga';
+      input.required = true;
+      container.appendChild(input);
+    }
+
+    function addHealthCondition() {
+      const container = document.getElementById('health-conditions-container');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'health_conditions[]';
+      input.placeholder = 'e.g., Back pain';
+      input.required = true;
+      container.appendChild(input);
+    }
+
+    function addCustomGoal() {
+      const container = document.getElementById('custom-goals-container');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'custom_goals[]';
+      input.placeholder = 'e.g., Improve core strength';
+      input.required = true;
+      container.appendChild(input);
+    }
+  </script>
+</body>
+</html>

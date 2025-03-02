@@ -1,0 +1,79 @@
+<%- include("./partials/header.ejs") -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Food Image Analysis</title>
+  <link rel="stylesheet" href="/styles/food-analysis.css">
+</head>
+<body>
+  <header>
+  </header>
+  <main>
+    <!-- Image Upload Form -->
+    <form method="POST" action="/analyzefoodplate">
+      <!-- File Upload -->
+      <label for="image">Upload Image (File):</label>
+      <input type="file" id="image" name="image" accept="image/*">
+
+      <!-- URL Input -->
+      <label for="image-url">Or Enter Image URL:</label>
+      <input type="url" id="image-url" name="imageUrl" placeholder="https://example.com/image.jpg">
+
+      <!-- Language Selection -->
+      <label for="language">Select Language:</label>
+      <select id="language" name="language" required>
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="tr">Turkish</option>
+      </select>
+
+      <button type="submit">Analyze</button>
+    </form>
+
+    <!-- Render API Data -->
+    <% if (locals.data && locals.data.result) { %>
+      <div class="analysis-results">
+        <h2>Analysis Results</h2>
+        <p><strong>Estimated Calories:</strong> <%= locals.data.result.estimated_calories %> kcal</p>
+        <h3>Macronutrients:</h3>
+        <ul>
+          <% for (let [key, value] of Object.entries(locals.data.result.macronutrients)) { %>
+            <li><strong><%= key.charAt(0).toUpperCase() + key.slice(1) %>:</strong> <%= value %></li>
+          <% } %>
+        </ul>
+        <h3>Foods Identified:</h3>
+        <ul>
+          <% locals.data.result.foods_identified.forEach(food => { %>
+            <li><%= food %></li>
+          <% }) %>
+        </ul>
+        <h3>Portion Sizes:</h3>
+        <ul>
+          <% for (let [food, size] of Object.entries(locals.data.result.portion_sizes)) { %>
+            <li><strong><%= food %>:</strong> <%= size %></li>
+          <% } %>
+        </ul>
+        <h3>Meal Balance:</h3>
+        <p><%= locals.data.result.meal_balance %></p>
+        <h3>Suggestions:</h3>
+        <ul>
+          <% locals.data.result.suggestions.forEach(suggestion => { %>
+            <li><%= suggestion %></li>
+          <% }) %>
+        </ul>
+        <h3>SEO Information:</h3>
+        <p><strong>Title:</strong> <%= locals.data.result.seo_title %></p>
+        <p><strong>Content:</strong> <%= locals.data.result.seo_content %></p>
+        <p><strong>Keywords:</strong> <%= locals.data.result.seo_keywords %></p>
+      </div>
+    <% } else { %>
+      <p class="error">No data available to display the analysis. Please upload an image or enter a URL and try again.</p>
+    <% } %>
+  </main>
+</body>
+</html>
+
+<%- include("./partials/footer.ejs") -%>

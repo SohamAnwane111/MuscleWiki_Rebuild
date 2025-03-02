@@ -1,0 +1,80 @@
+<%- include("./partials/header.ejs") -%>
+
+<div>
+  <% if (locals.data && locals.data.length > 0) { %>
+  <div class="all-pr">
+    <% data.forEach((element, index) => { %>
+    <form class="pr" action="/pr" method="post">
+      <p class="pr-heading">
+        <%= element.exercise.charAt(0).toUpperCase() + element.exercise.slice(1).toLowerCase() %>
+      </p>
+      <button
+        class="del-btn"
+        type="submit"
+        name="toDelete"
+        value="<%= element.id %>"
+      >
+        <img src="/assets/remove.png" alt="remove" />
+      </button>
+
+      <div id="<%= element.id %>" class="inner-div">
+        <strong class="strong-txt">Date:</strong>
+        <span class="s1"><%= element.date.toISOString().split('T')[0] %></span><br />
+      </div>
+      <div id="<%= element.id %>" class="inner-div">
+        <strong class="strong-txt">Weight:</strong>
+        <span class="s3"><%= element.weight %> kg</span><br />
+      </div>
+      <div id="<%= element.id %>" class="inner-div">
+        <strong class="strong-txt">Reps:</strong>
+        <span class="s4"><%= element.reps %></span>
+      </div>
+    </form>
+    <% }); %>
+  </div>
+  <% } else { %>
+  <h1 class="no-pr">No Personal Record entries found!</h1>
+  <% } %>
+
+  <div class="add-form-div">
+    <!-- New Form Template -->
+    <div class="form">
+      <div class="subtitle">Let's create your PR entry!</div>
+      <form action="/pr" method="post">
+        <div class="input-container ic1">
+          <input id="pr-date" name="pr-date" class="input" type="date" placeholder=" " required />
+          <div class="cut"></div>
+          <label for="pr-date" class="placeholder">Date</label>
+        </div>
+        <div class="input-container ic2">
+          <input id="pr-exercise" name="pr-exercise" class="input" type="text" placeholder=" " required />
+          <div class="cut"></div>
+          <label for="pr-exercise" class="placeholder">Exercise</label>
+        </div>
+        <div class="input-container ic2">
+          <input id="pr-weight" name="pr-weight" class="input" type="number" step="0.01" placeholder=" " required />
+          <div class="cut cut-short"></div>
+          <label for="pr-weight" class="placeholder">Weight (kg)</label>
+        </div>
+        <div class="input-container ic2">
+          <input id="pr-reps" name="pr-reps" class="input" type="number" placeholder=" " required />
+          <div class="cut cut-short"></div>
+          <label for="pr-reps" class="placeholder">Reps</label>
+        </div>
+        <button type="submit" class="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const divs = document.querySelectorAll('.pr');
+    for (let i = 0; i < divs.length; i++) {
+      const duration = ((divs.length - i) * 0.25) + 's';
+      divs[i].style.animationDuration = duration;
+    }
+  });
+</script>
+
+<%- include("./partials/footer.ejs") -%>

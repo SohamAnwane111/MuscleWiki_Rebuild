@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Plan</title>
+  <link rel="stylesheet" href="/styles/nutrition.css">
+</head>
+<%- include("./partials/header.ejs") -%>
+<body>
+  <main>
+    <!-- Nutrition Plan Form -->
+    <form method="POST" action="/nutritionplan">
+      <label for="goal">Goal:</label>
+      <input type="text" id="goal" name="goal" placeholder="Enter your goal (e.g., Build muscle)" required>
+
+      <label for="dietary_restrictions">Dietary Restrictions:</label>
+      <div id="dietary-restrictions-container">
+        <input type="text" name="dietary_restrictions[]" placeholder="e.g., Vegetarian" required>
+      </div>
+      <button type="button" onclick="addDietaryRestriction()">Add Dietary Restriction</button>
+
+      <label for="current_weight">Current Weight (kg):</label>
+      <input type="number" id="current_weight" name="current_weight" min="1" required>
+
+      <label for="target_weight">Target Weight (kg):</label>
+      <input type="number" id="target_weight" name="target_weight" min="1" required>
+
+      <label for="daily_activity_level">Daily Activity Level:</label>
+      <select id="daily_activity_level" name="daily_activity_level" required>
+        <option value="Sedentary">Sedentary</option>
+        <option value="Moderate">Moderate</option>
+        <option value="Active">Active</option>
+      </select>
+
+      <label for="lang">Language:</label>
+      <select id="lang" name="lang" required>
+        <option value="en">English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <!-- Nutrition Plan Results -->
+    <% if (locals.data && locals.data.result) { %>
+        <div class="nutrition-plan">
+          <% if (locals.data.result.error) { %>
+            <p class="error"><%= locals.data.result.error %></p>
+          <% } else { %>
+            <p><strong>Description:</strong> <%= locals.data.result.seo_content %></p>
+            <h2>Generated Nutrition Plan:</h2>
+            <p><strong>Goal:</strong> <%= locals.data.result.goal %></p>
+            <p><strong>Calories per Day:</strong> <%= locals.data.result.calories_per_day %> kcal</p>
+            <h3>Macronutrient Breakdown:</h3>
+            <ul>
+              <li><strong>Carbohydrates:</strong> <%= locals.data.result.macronutrients.carbohydrates %></li>
+              <li><strong>Proteins:</strong> <%= locals.data.result.macronutrients.proteins %></li>
+              <li><strong>Fats:</strong> <%= locals.data.result.macronutrients.fats %></li>
+            </ul>
+
+            <h3>Meal Suggestions:</h3>
+            <% locals.data.result.meal_suggestions.forEach(meal => { %>
+              <h4><%= meal.meal %>:</h4>
+              <ul>
+                <% meal.suggestions.forEach(suggestion => { %>
+                  <li>
+                    <strong><%= suggestion.name %></strong>
+                    <ul>
+                      <li><strong>Ingredients:</strong>
+                        <ul>
+                          <% suggestion.ingredients.forEach(ingredient => { %>
+                            <li><%= ingredient %></li>
+                          <% }) %>
+                        </ul>
+                      </li>
+                      <li><strong>Calories:</strong> <%= suggestion.calories %> kcal</li>
+                    </ul>
+                  </li>
+                <% }) %>
+              </ul>
+            <% }) %>
+          <% } %>
+        </div>
+      <% } else { %>
+        <p class="error">No data available to display the nutrition plan.</p>
+      <% } %>
+      
+  </main>
+
+  <script>
+    function addDietaryRestriction() {
+      const container = document.getElementById('dietary-restrictions-container');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'dietary_restrictions[]';
+      input.placeholder = 'e.g., Gluten-free';
+      input.required = true;
+      container.appendChild(input);
+    }
+  </script>
+</body>
+</html>
