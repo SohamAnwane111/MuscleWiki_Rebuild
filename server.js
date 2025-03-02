@@ -33,9 +33,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 const saltRounds = 10;
 const API_URL = "https://api.api-ninjas.com/v1/exercises";
-var currentMuscle = "";
-var currentIntensity = "";
-var currentEquipment = null;
 var currentUser;
 env.config();
 
@@ -52,11 +49,9 @@ app.use(
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
-
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
-
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -68,91 +63,6 @@ const db = new pg.Client({
   port: process.env.PG_PORT,
 });
 db.connect();
-
-function parseData(data) {
-  const resultArray = [];
-
-  for (const day in data) {
-    if (data.hasOwnProperty(day)) {
-      data[day].forEach((muscle) => {
-        resultArray.push(`${day}-${muscle}`);
-      });
-    }
-  }
-  return resultArray;
-}
-
-function splitString(str) {
-  var date = "";
-  var text = "";
-  var i = 0;
-  while (i < str.length && str[i] != "#") {
-    date += str[i];
-    i++;
-  }
-  i++;
-  while (i < str.length) {
-    text += str[i];
-    i++;
-  }
-  return [date, text];
-}
-
-// app.get("/home", (req, res) => {
-//   if (currentUser) {
-//     res.render("home.ejs", {
-//       username: currentUser.name,
-//     });
-//   } else res.render("home.ejs");
-// });
-
-app.get("/home/info", async (req, res) => {
-  const { muscle, intensity, equipment } = req.query; // Extract query parameters
-
-  console.log("Muscle:", muscle); // Log the received parameters
-  console.log("Intensity:", intensity);
-  console.log("Type:", equipment);
-
-  try {
-    // Use these query parameters in the axios request to make the API call
-    const response = await axios.get(API_URL, {
-      params: {
-        muscle: muscle,
-        difficulty: intensity,
-        type: equipment,
-      },
-      headers: {
-        "x-rapidapi-key": "78914fac3bmshf0fc97e3ac765fdp1f7d5fjsn8652559b2698",
-        "x-rapidapi-host": "exercises-by-api-ninjas.p.rapidapi.com",
-      },
-    });
-
-    console.log(`Data received: ${JSON.stringify(response.data)}`);
-
-    // Pass the data to the view for rendering
-    res.render("info.ejs", {
-      data: response.data,
-    });
-  } catch (error) {
-    res.status(404).send(error);
-  }
-});
-
-// app.get("/home/plans", async (req, res) => {
-//   try {
-//     const result = await db.query(
-//       "SELECT plans FROM workouts JOIN users ON users.id = workouts.user_id WHERE users.id = $1",
-//       [currentUser.id]
-//     );
-//     res.render("plans.ejs", {
-//       data: result.rows[0],
-//     });
-//   } catch (err) {
-//     res.redirect("/");
-//     console.log(err);
-//   }
-// });
-
 
 app.use("/", signInRoute);
 app.use("/signup", signUpRoute);
@@ -185,24 +95,6 @@ app.post("/home/info", (req, res) => {
   res.redirect("/home");
 });
 
-// app.post("/home/plans", async (req, res) => {
-//   const data = parseData(req.body);
-//   try {
-//     await db.query("delete from workouts where user_id = $1", [currentUser.id]);
-
-//     try {
-//       await db.query(
-//         "INSERT INTO workouts (user_id, plans) VALUES ($1, $2::text[])",
-//         [currentUser.id, data]
-//       );
-//       res.redirect("/home/plans");
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-// });
 
 app.post(
   "/",
@@ -298,5 +190,3 @@ app.listen(port, () => {
 export {db as db};
 export {currentUser as currentUser};
 export {KEY as KEY};
-
-// end
