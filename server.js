@@ -9,6 +9,7 @@ import GoogleStrategy from "passport-google-oauth2";
 import session from "express-session";
 import env from "dotenv";
 import path from "path";
+import pgSession from "connect-pg-simple";
 
 import { fileURLToPath } from "url";
 
@@ -24,7 +25,6 @@ import { learnExerciseRoute } from "./routers/learnExercise.js";
 import { homeRoute } from "./routers/home.js";
 import { plansRoute } from "./routers/plans.js";
 
-// Define __dirname manually
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const KEY = "300bd0dde6mshac26486321139dap106030jsna29950716ce2";
@@ -33,27 +33,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const saltRounds = 10;
 const API_URL = "https://api.api-ninjas.com/v1/exercises";
-var currentUser;
 env.config();
-
-app.use(
-  session({
-    secret: "TOPSECRETWORD",
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24,
-    },
-  })
-);
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true }));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
-app.use(passport.initialize());
-app.use(passport.session());
 
 const db = new pg.Client({
   user: process.env.PG_USER,
@@ -63,6 +43,44 @@ const db = new pg.Client({
   port: process.env.PG_PORT,
 });
 db.connect();
+
+app.use(
+  session({
+    store: new (pgSession(session))({
+      pool: db,
+      tableName: "session",
+      createTableIfMissing: true, // This will create the table if it doesn't exist
+    }),
+    secret: "TOPSECRETWORD",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 },
+  })
+);
+
+
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// Middleware to ensure req.user is always set if session exists
+app.use((req, res, next) => {
+  if (req.session.passport && req.session.passport.user) {
+    db.query("SELECT * FROM users WHERE id = $1", [req.session.passport.user])
+      .then(result => {
+        req.user = result.rows[0];
+        next();
+      })
+      .catch(err => next());
+  } else {
+    next();
+  }
+});
 
 app.use("/", signInRoute);
 app.use("/signup", signUpRoute);
@@ -91,11 +109,6 @@ app.get(
   })
 );
 
-app.post("/home/info", (req, res) => {
-  res.redirect("/home");
-});
-
-
 app.post(
   "/",
   passport.authenticate("local", {
@@ -110,29 +123,16 @@ passport.use(
       usernameField: "email",
       passwordField: "password",
     },
-    async function (email, password, done) {
+    async (email, password, done) => {
       try {
-        const result = await db.query("SELECT * FROM users WHERE email = $1", [
-          email,
-        ]);
+        const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
         if (result.rows.length > 0) {
           const user = result.rows[0];
-          const storedHashedPassword = user.password;
-          bcrypt.compare(password, storedHashedPassword, (err, valid) => {
-            if (err) {
-              console.error("Error comparing passwords:", err);
-              return done(err);
-            } else {
-              if (valid) {
-                currentUser = user;
-                return done(null, user);
-              } else {
-                return done(null, false, { message: "Incorrect password." });
-              }
-            }
+          bcrypt.compare(password, user.password, (err, valid) => {
+            if (err) return done(err);
+            return valid ? done(null, user) : done(null, false, { message: "Incorrect password." });
           });
         } else {
-          console.log("User not found");
           return done(null, false, { message: "User not found." });
         }
       } catch (err) {
@@ -153,19 +153,14 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, cb) => {
       try {
-        console.log(profile);
-        const result = await db.query("SELECT * FROM users WHERE email = $1", [
-          profile.email,
-        ]);
+        const result = await db.query("SELECT * FROM users WHERE email = $1", [profile.email]);
         if (result.rows.length === 0) {
           const newUser = await db.query(
-            "INSERT INTO users (email, password, name) VALUES ($1, $2, $3)",
+            "INSERT INTO users (email, password, name) VALUES ($1, $2, $3) RETURNING *",
             [profile.email, "google", profile.given_name]
           );
-          currentUser = newUser;
           return cb(null, newUser.rows[0]);
         } else {
-          currentUser = result.rows[0];
           return cb(null, result.rows[0]);
         }
       } catch (err) {
@@ -175,20 +170,20 @@ passport.use(
   )
 );
 
-passport.serializeUser((user, cb) => {
-  cb(null, user);
-});
+passport.serializeUser((user, cb) => cb(null, user.id));
 
-passport.deserializeUser((user, cb) => {
-  cb(null, user);
+passport.deserializeUser(async (id, cb) => {
+  try {
+    const result = await db.query("SELECT * FROM users WHERE id = $1", [id]);
+    cb(null, result.rows[0]);
+  } catch (err) {
+    cb(err);
+  }
 });
 
 app.listen(port, () => {
   console.log(`Listening on url http://localhost:${port}`);
 });
 
-export {db as db};
-export {currentUser as currentUser};
-export {KEY as KEY};
-
-%%%
+export { db };
+export { KEY };

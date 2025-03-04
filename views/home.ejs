@@ -384,11 +384,11 @@
         <!-- <button type="submit" class="submit-button">Search Exercise</button> -->
 
         <!-- HT ML !-->
-         <div class="btnclass">
-           <button type="submit" class="button-28" role="button">
-           Time to sweat!
+        <div class="btnclass">
+          <button type="submit" class="button-28" role="button">
+            Time to sweat!
           </button>
-         </div>
+        </div>
       </form>
     </div>
 
@@ -397,23 +397,51 @@
     <div class="results-container">
       <h2>Exercise Results</h2>
       <ul class="results-list">
-        <% exercises.forEach(exercise => { %>
+        <% exercises.forEach(exercise => { %> <% if (exercise.instructions &&
+        exercise.instructions.trim() !== "") { %>
         <li class="result-item">
           <h3><%= exercise.name %></h3>
           <p><strong>Type:</strong> <%= exercise.type %></p>
           <p><strong>Muscle:</strong> <%= exercise.muscle %></p>
           <p><strong>Difficulty:</strong> <%= exercise.difficulty %></p>
-          <br>
+          <br />
           <p><strong>Instructions:</strong> <%= exercise.instructions %></p>
         </li>
-        <% }) %>
+        <% } %> <% }) %>
       </ul>
     </div>
     <% } else if (typeof exercises !== 'undefined') { %>
-      <p class="no-results">
-        No exercises found. Try adjusting your search criteria.
-      </p>
-      <% } %>
-      <%- include("./partials/footer.ejs") -%>
+    <p class="no-results">
+      No exercises found. Try adjusting your search criteria.
+    </p>
+    <% } %> <%- include("./partials/footer.ejs") -%>
   </div>
 </body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Handle selection for muscle group
+    document.querySelectorAll(".muscle-selection .item").forEach((item) => {
+      item.addEventListener("click", function () {
+        document
+          .querySelectorAll(".muscle-selection .item")
+          .forEach((el) => el.classList.remove("selected"));
+        this.classList.add("selected");
+      });
+    });
+
+    // Handle selection for exercise type and difficulty
+    document.querySelectorAll(".selectopt").forEach((input) => {
+      input.addEventListener("change", function () {
+        let parentDiv = this.closest(".select");
+        parentDiv.querySelectorAll(".option").forEach((label) => {
+          label.classList.remove("selected");
+        });
+        let label = parentDiv.querySelector(`label[for="${this.id}"]`);
+        if (label) {
+          label.classList.add("selected");
+        }
+      });
+    });
+  });
+</script>
