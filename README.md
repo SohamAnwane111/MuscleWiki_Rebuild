@@ -30,25 +30,6 @@ Here is a recorded video demonstration: https://drive.google.com/file/d/1S50_-ff
 - **API Integration:** External APIs are integrated to enhance functionality and provide additional features.
 - **Web Authentication:** Secure authentication mechanisms are implemented to protect user data and ensure secure access.
 
-## Glimpse
-### Sign-in/Sign-up
-![Screenshot (36)](https://github.com/SohamAnwane111/MuscleWiki/assets/139840433/e2a7755c-1f0e-40a1-9ae3-ad3fc98b6822)
-
-### Home
-![Screenshot (37)](https://github.com/SohamAnwane111/MuscleWiki/assets/139840433/ccbf0161-21d3-4c42-9c36-87ef6a88c31b)
-
-### Workouts
-![Screenshot (39)](https://github.com/SohamAnwane111/MuscleWiki/assets/139840433/9bed6e6e-c23a-493d-85fd-0f13fc9719ab)
-
-### Personalized Workout Split
-![Screenshot (40)](https://github.com/SohamAnwane111/MuscleWiki/assets/139840433/d5422b4e-6660-4468-8b37-3bd26ca717e3)
-
-### Gym Personal Records
-![Screenshot (41)](https://github.com/SohamAnwane111/MuscleWiki/assets/139840433/6eb472e1-153f-4f86-82c6-87b61db29f61)
-
-### Contact
-![Screenshot (38)](https://github.com/SohamAnwane111/MuscleWiki/assets/139840433/874a434e-1b20-493d-8e7d-2acb9fef9d03)
-
 ## Development
 Want to contribute? Great!
 
