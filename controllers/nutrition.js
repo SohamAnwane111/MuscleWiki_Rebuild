@@ -1,4 +1,5 @@
 import { KEY } from "../server.js";
+import axios from "axios";
 
 export const renderData = async (req, res) => {
   res.render("../views/nutrition.ejs");
@@ -7,6 +8,8 @@ export const renderData = async (req, res) => {
 export const postData = async (req, res) => {
     const formData = req.body;
   
+    console.log(formData);
+
     const options = {
       method: "POST",
       url: "https://ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com/nutritionAdvice",

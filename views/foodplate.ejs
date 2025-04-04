@@ -1,31 +1,51 @@
-<%- include("./partials/header.ejs") -%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Food Image Analysis</title>
-  <link rel="stylesheet" href="/styles/food-analysis.css">
+  <title>Food Plate Analysis</title>
+  <link rel="stylesheet" href="/styles/foodplate.css">
+  <script defer>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("form");
+      const loadingMessage = document.getElementById("loading-message");
+      const resultContainer = document.getElementById("result-container");
+      const errorMessage = document.getElementById("error-message");
+
+      form.addEventListener("submit", function () {
+        // Show the loading message & hide results
+        loadingMessage.style.display = "block";
+        resultContainer.style.display = "none";
+        errorMessage.style.display = "none";
+
+        // Disable form inputs & button to prevent resubmission
+        form.querySelectorAll("input, select, button").forEach((el) => {
+          el.setAttribute("disabled", "true");
+        });
+      });
+
+      // If results exist, show them & hide loader
+      if (resultContainer.innerHTML.trim() !== "") {
+        loadingMessage.style.display = "none";
+        resultContainer.style.display = "block";
+      }
+    });
+  </script>
 </head>
 <body>
-  <header>
-  </header>
+  <%- include("./partials/header.ejs") -%>
+
   <main>
-    <!-- Image Upload Form -->
+    <h1>Upload an image URL to analyze your food plate</h1>
+
+    <!-- Food Plate Form -->
     <form method="POST" action="/analyzefoodplate">
-      <!-- File Upload -->
-      <label for="image">Upload Image (File):</label>
-      <input type="file" id="image" name="image" accept="image/*">
-
-      <!-- URL Input -->
-      <label for="image-url">Or Enter Image URL:</label>
-      <input type="url" id="image-url" name="imageUrl" placeholder="https://example.com/image.jpg">
-
-      <!-- Language Selection -->
-      <label for="language">Select Language:</label>
-      <select id="language" name="language" required>
-        <option value="en">English</option>
+      <label for="imageUrl">Image URL:</label>
+      <input type="text" id="imageUrl" name="imageUrl" placeholder="Enter Image URL..." required>
+      
+      <label for="language">Language:</label>
+      <select id="language" name="language">
+        <option value="en" selected>English</option>
         <option value="es">Spanish</option>
         <option value="tr">Turkish</option>
       </select>
@@ -33,47 +53,63 @@
       <button type="submit">Analyze</button>
     </form>
 
-    <!-- Render API Data -->
-    <% if (locals.data && locals.data.result) { %>
-      <div class="analysis-results">
-        <h2>Analysis Results</h2>
-        <p><strong>Estimated Calories:</strong> <%= locals.data.result.estimated_calories %> kcal</p>
-        <h3>Macronutrients:</h3>
-        <ul>
-          <% for (let [key, value] of Object.entries(locals.data.result.macronutrients)) { %>
-            <li><strong><%= key.charAt(0).toUpperCase() + key.slice(1) %>:</strong> <%= value %></li>
-          <% } %>
-        </ul>
+    <!-- Loading Message -->
+    <p id="loading-message" class="<%= status === 'loading' ? '' : 'hide' %>">
+      🔄 Processing your food plate... Please wait.
+    </p>
+
+    <!-- Error Message -->
+    <p id="error-message" class="<%= status === 'error' ? '' : 'hide' %>">
+      ❌ An error occurred. Please try again.
+    </p>
+
+    <!-- Display API Results -->
+    <div id="result-container" class="<%= status === 'done' ? '' : 'hide' %>">
+      <% if (data && data.result) { %>
+        <h2>Food Analysis Results</h2>
         <h3>Foods Identified:</h3>
         <ul>
-          <% locals.data.result.foods_identified.forEach(food => { %>
+          <% data.result.foods_identified.forEach(food => { %>
             <li><%= food %></li>
-          <% }) %>
+          <% }); %>
         </ul>
+
         <h3>Portion Sizes:</h3>
         <ul>
-          <% for (let [food, size] of Object.entries(locals.data.result.portion_sizes)) { %>
-            <li><strong><%= food %>:</strong> <%= size %></li>
-          <% } %>
+          <% Object.keys(data.result.portion_sizes).forEach(food => { %>
+            <li><%= food %>: <%= data.result.portion_sizes[food] %></li>
+          <% }); %>
         </ul>
+
+        <h3>Estimated Calories:</h3>
+        <p><%= data.result.estimated_calories %> kcal</p>
+
+        <h3>Macronutrients:</h3>
+        <p>Protein: <%= data.result.macronutrients.protein %></p>
+        <p>Carbs: <%= data.result.macronutrients.carbs %></p>
+        <p>Fats: <%= data.result.macronutrients.fats %></p>
+
         <h3>Meal Balance:</h3>
-        <p><%= locals.data.result.meal_balance %></p>
+        <p><%= data.result.meal_balance %></p>
+
         <h3>Suggestions:</h3>
         <ul>
-          <% locals.data.result.suggestions.forEach(suggestion => { %>
+          <% data.result.suggestions.forEach(suggestion => { %>
             <li><%= suggestion %></li>
-          <% }) %>
+          <% }); %>
         </ul>
-        <h3>SEO Information:</h3>
-        <p><strong>Title:</strong> <%= locals.data.result.seo_title %></p>
-        <p><strong>Content:</strong> <%= locals.data.result.seo_content %></p>
-        <p><strong>Keywords:</strong> <%= locals.data.result.seo_keywords %></p>
-      </div>
-    <% } else { %>
-      <p class="error">No data available to display the analysis. Please upload an image or enter a URL and try again.</p>
-    <% } %>
+      <% } else { %>
+        <p class="error">No analysis results found. Try again.</p>
+      <% } %>
+    </div>
   </main>
+
+  <%- include("./partials/footer.ejs") -%>
+
+  <style>
+    .hide {
+      display: none;
+    }
+  </style>
 </body>
 </html>
-
-<%- include("./partials/footer.ejs") -%>

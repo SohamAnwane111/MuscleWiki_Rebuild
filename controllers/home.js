@@ -24,7 +24,7 @@ export const postData = async (req, res) => {
       url: "https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises",
       params,
       headers: {
-        "x-rapidapi-key": KEY,
+        "x-rapidapi-key": "78914fac3bmshf0fc97e3ac765fdp1f7d5fjsn8652559b2698",
         "x-rapidapi-host": "exercises-by-api-ninjas.p.rapidapi.com",
       },
     };

@@ -147,3 +147,6 @@ legend {
   color: #ff4d4d; /* Red error message */
   font-weight: bold;
 }
+
+.show { display: block; }
+.hide { display: none; }

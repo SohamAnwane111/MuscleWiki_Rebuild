@@ -125,17 +125,18 @@ main {
     background: #2c2c2c; /* Slightly darker gray for results */
     border-radius: 15px;
     padding: 20px;
-    width: 90%; /* Responsive width */
-    max-width: 600px;
+    width: 95%; /* Responsive width */
+    /* max-width: 600px; */
     box-sizing: border-box;
     margin-top: 20px;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+    margin-left: 48%;
   }
   
   .workout-plan h2,
   .workout-plan h3,
   .workout-plan h4 {
-    color: #ffffff;
+    color: #ffffff6b;
   }
   
   .workout-plan p,
@@ -148,3 +149,9 @@ main {
     font-weight: bold;
   }
   
+
+  h1{
+    text-align: center;
+    margin-left: 40%;
+    
+  }

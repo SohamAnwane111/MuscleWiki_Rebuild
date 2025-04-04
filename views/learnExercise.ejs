@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Exercise Information</title>
   <link rel="stylesheet" href="/styles/exercise-info.css">
+  <link rel="icon" type="image/x-icon" href="/assets/icon.ico" />
 </head>
 <body>
     <%- include("./partials/header.ejs") -%>
   <main>
     <!-- Exercise Search Form -->
+     <h1>Just name an exercise, and we'll show you how to master it!</h1>
     <form method="POST" action="/learnExercise">
       <label for="exercise_name">Enter Exercise Name:</label>
       <input
@@ -71,5 +73,6 @@
       <p class="error">No data found for "<%= locals.input %>". Please try a different exercise.</p>
     <% } %>
   </main>
+  <%- include("./partials/footer.ejs") -%>
 </body>
 </html>

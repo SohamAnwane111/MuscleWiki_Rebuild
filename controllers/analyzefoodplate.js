@@ -1,17 +1,19 @@
 import { KEY } from "../server.js";
+import axios from "axios";
 
 export const renderData = async (req, res) => {
-  res.render("../views/foodplate.ejs");
+  res.render("../views/foodplate.ejs", { data: null, status: "idle" }); // Default state
 };
 
 export const postData = async (req, res) => {
   try {
-    // Extract form data
     const { imageUrl, language } = req.body;
 
-    // Prepare the API request
+    // Send initial response to indicate processing
+    res.render("../views/foodplate.ejs", { data: null, status: "loading" });
+
     const encodedParams = new URLSearchParams();
-    encodedParams.append("image", imageUrl); // Assuming API requires the image URL
+    encodedParams.append("image", imageUrl);
     encodedParams.append("lang", language);
 
     const options = {
@@ -19,23 +21,19 @@ export const postData = async (req, res) => {
       url: "https://ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com/analyzeFoodPlate",
       headers: {
         "x-rapidapi-key": KEY,
-        "x-rapidapi-host":
-          "ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com",
+        "x-rapidapi-host": "ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com",
         "Content-Type": "application/x-www-form-urlencoded",
       },
       data: encodedParams,
     };
 
-    // Make the API call
+    // Call API
     const response = await axios.request(options);
 
-    // Log the API response
-    console.log(response.data);
-
-    // Render the results on the page
-    res.render("foodplate.ejs", { data: response.data });
+    // Send final response with data
+    res.render("foodplate.ejs", { data: response.data, status: "done" });
   } catch (error) {
     console.error(error);
-    res.status(500).send("An error occurred while processing your request.");
+    res.render("foodplate.ejs", { data: null, status: "error" });
   }
 };

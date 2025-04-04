@@ -150,3 +150,8 @@ legend {
   color: #ff4d4d; /* Red error message */
   font-weight: bold;
 }
+
+h1 {
+  text-align: center;
+  margin-left: 40%;
+}
