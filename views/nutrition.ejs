@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nutrition Plan</title>
   <link rel="stylesheet" href="/styles/nutrition.css">
+  <link rel="icon" type="image/x-icon" href="/assets/icon.ico" />
 </head>
 <%- include("./partials/header.ejs") -%>
 <body>
   <main>
+    <h1>Smart Nutrition: AI-Powered Guidance for Your Health & Fitness!</h1>
     <!-- Nutrition Plan Form -->
-    <form method="POST" action="/nutritionplan">
+    <form method="POST" action="/nutrition">
       <label for="goal">Goal:</label>
       <input type="text" id="goal" name="goal" placeholder="Enter your goal (e.g., Build muscle)" required>
 
@@ -65,6 +67,7 @@
               <h4><%= meal.meal %>:</h4>
               <ul>
                 <% meal.suggestions.forEach(suggestion => { %>
+                  <br>
                   <li>
                     <strong><%= suggestion.name %></strong>
                     <ul>
@@ -84,7 +87,7 @@
           <% } %>
         </div>
       <% } else { %>
-        <p class="error">No data available to display the nutrition plan.</p>
+        <!-- <p class="error">No data available to display the nutrition plan.</p> -->
       <% } %>
       
   </main>
@@ -100,5 +103,6 @@
       container.appendChild(input);
     }
   </script>
+         <%- include("./partials/footer.ejs") -%>
 </body>
 </html>

@@ -5,11 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Workout Plan</title>
   <link rel="stylesheet" href="/styles/custom-workout.css">
+  <link rel="icon" type="image/x-icon" href="/assets/icon.ico" />
 </head>
 <%- include("./partials/header.ejs") -%>
 <body>
   <main>
     <!-- Workout Plan Form -->
+     <h1>Your Personalized AI-Powered Workout Plan – Crafted Just for You!</h1>
     <form method="POST" action="/customworkout">
       <!-- Goal -->
       <label for="goal">Goal:</label>
@@ -107,7 +109,7 @@
         <% } %>
       </div>
     <% } else { %>
-      <p class="error">No data available to display the workout plan.</p>
+      <!-- <p class="error">No data available to display the workout plan.</p> -->
     <% } %>
   </main>
 
@@ -142,5 +144,6 @@
       container.appendChild(input);
     }
   </script>
+     <%- include("./partials/footer.ejs") -%>
 </body>
 </html>

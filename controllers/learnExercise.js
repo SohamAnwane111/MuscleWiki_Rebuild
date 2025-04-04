@@ -1,4 +1,5 @@
 import { KEY } from "../server.js";
+import axios from "axios";
 
 export const renderData = async (req, res) => {
   res.render("../views/learnExercise.ejs");
