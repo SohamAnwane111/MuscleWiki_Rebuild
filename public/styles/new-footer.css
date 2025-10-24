@@ -1,0 +1,73 @@
+  
+  /* Main content area (dynamic content area) */
+  body > *:not(footer) {
+    flex: 1; /* Push the footer to the bottom when content is less */
+  }
+  
+  /* Footer styles */
+  footer {
+    background-color: #111; /* Dark background */
+    color: #fff; /* White text */
+    text-align: center; /* Center align text */
+    padding: 40px 20px; /* Add spacing for a clean look */
+    width: 2000px; /* Full width footer */
+    margin-left: -250px;
+    margin-top: 50px;
+  }
+  
+  footer .container {
+    max-width: 1200px; /* Content width limit */
+    margin: 0 auto; /* Center content horizontally */
+  }
+  
+  .footer-menu {
+    list-style: none; /* Remove bullets */
+    display: flex; /* Horizontal layout */
+    justify-content: center; /* Center items */
+    gap: 20px; /* Space between items */
+    margin-bottom: 20px;
+  }
+  
+  .footer-menu li a {
+    text-decoration: none; /* Remove underline */
+    color: #fff;
+    font-size: 16px;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-menu li a:hover {
+    color: #001297; /* Highlight color */
+  }
+  
+  .footer-social {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Space between icons */
+    margin-bottom: 20px;
+  }
+  
+  .footer-social a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 20px; /* Icon size */
+    transition: color 0.3s ease;
+  }
+  
+  .footer-social a:hover {
+    color: #2e46ff; /* Highlight on hover */
+  }
+  
+  .footer-copyright {
+    font-size: 14px;
+    color: #aaa;
+  }
+  
+  .footer-copyright a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .footer-copyright a:hover {
+    text-decoration: underline;
+  }
+  

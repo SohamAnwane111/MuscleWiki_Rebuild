@@ -1,0 +1,294 @@
+@import url("https://fonts.googleapis.com/css?family=Work+Sans:400,600");
+
+body  {
+  margin: 0;
+  background: #202020;
+  font-family: "Work Sans", sans-serif;
+  font-weight: 800;
+  color: #fff;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+header {
+  background: #ffffff;
+}
+
+header::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+  padding: 10px 0;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 70px;
+  padding-top: 23px;
+  position: relative;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+nav a:hover {
+  color: #000;
+}
+
+nav a::before {
+  content: "";
+  display: block;
+  height: 5px;
+  background-color: #444;
+  position: absolute;
+  top: 0;
+  width: 0%;
+  transition: all ease-in-out 250ms;
+}
+
+nav a:hover::before {
+  width: 100%;
+}
+
+.logonew {
+  width: 280px;
+  position: absolute;
+  left: 5%;
+  top: 1.2%;
+}
+
+.pr-btn {
+  position: absolute;
+  top: 68.5%;
+  font-size: 19px;
+}
+
+/* PR cards layout */
+.all-pr {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.pr {
+  background-color: rgb(17, 17, 17);
+  width: 400px;
+  height: 175px;
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 10px;
+  font-size: 19px;
+  animation: slideIn 1s ease-out forwards;
+  border: 1px solid rgb(214, 214, 214);
+  color: rgb(206, 206, 206);
+  padding-bottom: 20px;
+  padding-right: 20px;
+}
+
+.pr:hover {
+  background-color: rgb(41, 41, 41);
+}
+
+.inner-div {
+  display: flex;
+  justify-content: space-between; /* Align text and value on opposite sides */
+  align-items: center;
+  width: 90%;
+  margin: 5px 0;
+}
+
+.inner-div span {
+  flex: 2; /* Allows value to take up more space */
+  text-align: right; /* Align value to the right */
+  color: #ccc;
+}
+
+.strong-txt {
+  flex: 1; /* Ensures label column has consistent width */
+  text-align: left;
+  color: white;
+}
+
+.del-btn {
+  width: 30px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+
+.del-btn img {
+  width: 30px;
+  height: 30px;
+  transition: 0.4s;
+}
+
+.del-btn img:hover {
+  transform: scale(1.2); /* Smooth scaling effect */
+}
+
+.pr-heading {
+  font-size: 21px;
+  color: white;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+
+.no-pr {
+  color: black;
+  letter-spacing: 1px;
+  font-size: 45px;
+  text-align: center;
+  margin-top: 50px;
+}
+
+/* Remove scrollbar */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.form {
+  background: linear-gradient(145deg, #000000, #3a3a3a); /* Black to dark gray gradient */
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  padding: 25px 30px;
+  width: 450px;
+  box-sizing: border-box;
+  margin-left: 35%;
+  margin-top: 50px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #e0f2fe; /* Light sky blue */
+}
+
+.subtitle {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 50px;
+  color: #bfdbfe; /* Pale blue */
+}
+
+/* Input Container Styling */
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input {
+  background: #f0f9ff; /* Very light blue */
+  border: 2px solid #93c5fd; /* Light blue border */
+  border-radius: 8px;
+  padding: 10px 15px;
+  width: 100%;
+  font-size: 1rem;
+  outline: none;
+  color: #1e3a8a; /* Dark blue for text */
+}
+
+.input:focus {
+  border-color: #3b82f6; /* Vibrant blue when focused */
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+.placeholder {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  transition: all 0.2s ease-in-out;
+  font-size: 1rem;
+  color: #64748b; /* Soft gray-blue */
+  pointer-events: none;
+}
+
+.input:focus ~ .placeholder,
+.input:not(:placeholder-shown) ~ .placeholder {
+  top: -10px;
+  left: 10px;
+  font-size: 0.85rem;
+  color: #3b82f6; /* Vibrant blue for active placeholder */
+}
+
+/* Submit Button Styling */
+.submit {
+  background: #3b82f6; /* Vibrant blue */
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 12px;
+  text-align: center;
+  width: 100%;
+  transition: background 0.3s ease-in-out;
+}
+
+.submit:hover {
+  background: #2563eb; /* Darker blue on hover */
+}
+
+.submit:active {
+  background: #1e3a8a; /* Darkest blue on active */
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+  .form {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+}
