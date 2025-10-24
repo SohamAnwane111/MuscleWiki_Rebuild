@@ -1,0 +1,158 @@
+/* Webpage Background */
+body {
+    background-color: rgb(15, 15, 15) !important ; /* Darker background for the webpage */
+    color: #e0e0e0; /* Light text color for contrast */
+    font-family: Arial, sans-serif;
+}
+
+/* New compact table and updated checkbox styles */
+.compact-table {
+    width: 80%; /* Increased width */
+    border-collapse: collapse;
+    margin: 15px auto;
+    background-color: #000000; /* Dark blue flavor for the table */
+    border-radius: 10px;
+    overflow: hidden;
+    height: 420px;
+}
+
+.compact-table th,
+.compact-table td {
+    padding: 12px 18px; /* Increased padding for larger size */
+    text-align: center;
+    border: 1px solid #000000;
+}
+
+.compact-table td:hover {
+    background-color: #313131;
+}
+
+.compact-table th {
+    background-color: #1f1f1f; /* Darker background for headers */
+    color: #cbceff; /* Yellow color for column titles */
+    font-weight: bold;
+}
+
+.intersection{
+    font-size: 20px;
+}
+
+
+.compact-table td {
+    background-color: #2a2a2a; /* Slightly lighter background for data rows */
+    color: #cbceff; 
+}
+.day{
+}
+
+/* Ensure consistent column width */
+.compact-table th, .compact-table td {
+    width: 11%; /* Ensure all columns have equal width */
+}
+
+/* Green checkboxes */
+.compact-table input[type="checkbox"] {
+    transform: scale(1.5); /* Increased checkbox size */
+    accent-color: #32cd32; /* Green color for checkboxes */
+}
+
+.compact-table input[type="checkbox"]:hover {
+    transform: scale(1.6); /* Slight hover effect */
+}
+
+/* Compact Button Styling */
+.compact-btn {
+    background-color: #3b82f6; /* Vibrant blue */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px; /* Compact size */
+    font-size: 0.9rem; /* Smaller font size */
+    margin: 15px auto;
+    display: block;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.compact-btn:hover {
+    background-color: #2563eb; /* Slightly darker on hover */
+}
+
+.compact-btn:active {
+    background-color: #1e3a8a; /* Darker blue on active */
+}
+
+/* Split-heading styling */
+.split-heading {
+    font-size: 2rem; /* Larger font size for better visibility */
+    text-align: center;
+    color: #ffffff; /* White color for contrast */
+    margin-bottom: 20px; /* Space below the heading */
+    font-weight: bold;
+    letter-spacing: 2px; /* Spacing between letters for better readability */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .compact-table {
+        font-size: 0.85rem; /* Smaller font for mobile */
+    }
+
+    .compact-btn {
+        width: 90%; /* Full width on mobile */
+    }
+
+    .split-heading {
+        font-size: 1.5rem; /* Slightly smaller heading on mobile */
+    }
+}
+
+
+/* CSS */
+.button-30 {
+    margin-left: 43%;
+    align-items: center;
+    appearance: none;
+    background-color: #FCFCFD;
+    border-radius: 4px;
+    border-width: 0;
+    box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,rgba(45, 35, 66, 0.3) 0 7px 13px -3px,#D6D6E7 0 -3px 0 inset;
+    box-sizing: border-box;
+    color: #36395A;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "JetBrains Mono",monospace;
+    height: 40px;
+    width: 200px;
+    justify-content: center;
+    line-height: 1;
+    list-style: none;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    position: relative;
+    text-align: left;
+    text-decoration: none;
+    transition: box-shadow .15s,transform .15s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: nowrap;
+    will-change: box-shadow,transform;
+    font-size: 18px;
+    font-size: larger;
+  }
+  
+  .button-30:focus {
+    box-shadow: #D6D6E7 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+  }
+  
+  .button-30:hover {
+    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #D6D6E7 0 -3px 0 inset;
+    transform: translateY(-2px);
+  }
+  
+  .button-30:active {
+    box-shadow: #D6D6E7 0 3px 7px inset;
+    transform: translateY(2px);
+  }

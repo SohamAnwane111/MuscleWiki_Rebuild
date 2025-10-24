@@ -1,0 +1,447 @@
+<%- include("./partials/header.ejs") -%>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/styles/home.css" />
+</head>
+
+<body>
+  <div class="main-container">
+    <!-- Navigation Links -->
+    <div class="navigation">
+      <a href="/workoutplan">
+        <!-- <button>Generate Workout Plan</button> -->
+        <!-- <button class="button-28" role="button">Button 28</button> -->
+        <!-- HTML !-->
+        <button class="button-30" role="button">Generate Workout Plan</button>
+      </a>
+      <a href="/customworkout">
+        <button class="button-30" role="button">Custom Workout Plan</button>
+        <!-- <button>Custom Workout Plan</button> -->
+      </a>
+      <a href="/nutrition">
+        <button class="button-30" role="button">Nutrition Advice</button>
+        <!-- <button>Nutrition Advice</button> -->
+      </a>
+      <a href="/analyzefoodplate">
+        <button class="button-30" role="button">Analyze Food Plate</button>
+        <!-- <button>Analyze Food Plate</button> -->
+      </a>
+      <a href="/learnExercise">
+        <button class="button-30" role="button">Master an Exercise</button>
+        <!-- <button>Master an Exercise</button> -->
+      </a>
+    </div>
+
+    <!-- Form for Exercise Search -->
+    <div class="form-container">
+      <h1 class="mainheading">Find Exercises Tailored to You</h1>
+      <form action="/home" method="POST" class="exercise-form">
+        <!-- Muscle Selection -->
+        <section class="muscle-selection">
+          <h3>Select a Muscle Group</h3>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="abdominals"
+              id="muscle-abdominals"
+              hidden
+            />
+            <label for="muscle-abdominals">
+              <span>Abdominals</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="abductors"
+              id="muscle-abductors"
+              hidden
+            />
+            <label for="muscle-abductors">
+              <span>Abductors</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="adductors"
+              id="muscle-adductors"
+              hidden
+            />
+            <label for="muscle-adductors">
+              <span>Adductors</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="biceps"
+              id="muscle-biceps"
+              hidden
+            />
+            <label for="muscle-biceps">
+              <span>Biceps</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="calves"
+              id="muscle-calves"
+              hidden
+            />
+            <label for="muscle-calves">
+              <span>Calves</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="chest"
+              id="muscle-chest"
+              hidden
+            />
+            <label for="muscle-chest">
+              <span>Chest</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="forearms"
+              id="muscle-forearms"
+              hidden
+            />
+            <label for="muscle-forearms">
+              <span>Forearms</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="glutes"
+              id="muscle-glutes"
+              hidden
+            />
+            <label for="muscle-glutes">
+              <span>Glutes</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="hamstrings"
+              id="muscle-hamstrings"
+              hidden
+            />
+            <label for="muscle-hamstrings">
+              <span>Hamstrings</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="lats"
+              id="muscle-lats"
+              hidden
+            />
+            <label for="muscle-lats">
+              <span>Lats</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="lower_back"
+              id="muscle-lower_back"
+              hidden
+            />
+            <label for="muscle-lower_back">
+              <span>Lower Back</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="middle_back"
+              id="muscle-middle_back"
+              hidden
+            />
+            <label for="muscle-middle_back">
+              <span>Middle Back</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="neck"
+              id="muscle-neck"
+              hidden
+            />
+            <label for="muscle-neck">
+              <span>Neck</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="quadriceps"
+              id="muscle-quadriceps"
+              hidden
+            />
+            <label for="muscle-quadriceps">
+              <span>Quadriceps</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="traps"
+              id="muscle-traps"
+              hidden
+            />
+            <label for="muscle-traps">
+              <span>Traps</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="triceps"
+              id="muscle-triceps"
+              hidden
+            />
+            <label for="muscle-triceps">
+              <span>Triceps</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value="shoulders"
+              id="muscle-shoulders"
+              hidden
+            />
+            <label for="muscle-shoulders">
+              <span>Shoulders</span>
+            </label>
+          </div>
+          <div class="item" onclick="selectMuscle(this)">
+            <input
+              type="radio"
+              name="muscle"
+              value=""
+              id="muscle-none"
+              hidden
+            />
+            <label for="muscle-none">
+              <span>None</span>
+            </label>
+          </div>
+        </section>
+
+        <!-- Exercise Type Selection -->
+        <div class="selection">
+          <fieldset>
+            <legend>Select Exercise Type (optional)</legend>
+            <div class="select" tabindex="1">
+              <input
+                class="selectopt"
+                name="exercise_type"
+                type="radio"
+                id="exercise-type-cardio"
+                value="cardio"
+              />
+              <label for="exercise-type-cardio" class="option">Cardio</label>
+              <input
+                class="selectopt"
+                name="exercise_type"
+                type="radio"
+                id="exercise-type-olympic"
+                value="olympic"
+              />
+              <label for="exercise-type-olympic" class="option"
+                >Olympic Weightlifting</label
+              >
+              <input
+                class="selectopt"
+                name="exercise_type"
+                type="radio"
+                id="exercise-type-plyometrics"
+                value="plyometrics"
+              />
+              <label for="exercise-type-plyometrics" class="option"
+                >Plyometrics</label
+              >
+              <input
+                class="selectopt"
+                name="exercise_type"
+                type="radio"
+                id="exercise-type-powerlifting"
+                value="powerlifting"
+              />
+              <label for="exercise-type-powerlifting" class="option"
+                >Powerlifting</label
+              >
+              <input
+                class="selectopt"
+                name="exercise_type"
+                type="radio"
+                id="exercise-type-strength"
+                value="strength"
+              />
+              <label for="exercise-type-strength" class="option"
+                >Strength</label
+              >
+              <input
+                class="selectopt"
+                name="exercise_type"
+                type="radio"
+                id="exercise-type-stretching"
+                value="stretching"
+              />
+              <label for="exercise-type-stretching" class="option"
+                >Stretching</label
+              >
+              <input
+                class="selectopt"
+                name="exercise_type"
+                type="radio"
+                id="exercise-type-strongman"
+                value="strongman"
+              />
+              <label for="exercise-type-strongman" class="option"
+                >Strongman</label
+              >
+            </div>
+          </fieldset>
+
+          <!-- Difficulty Level Selection -->
+          <fieldset>
+            <legend>Select Difficulty Level (optional)</legend>
+            <div class="select" tabindex="1">
+              <input
+                class="selectopt"
+                name="difficulty"
+                type="radio"
+                id="difficulty-beginner"
+                value="beginner"
+              />
+              <label for="difficulty-beginner" class="option">Beginner</label>
+              <input
+                class="selectopt"
+                name="difficulty"
+                type="radio"
+                id="difficulty-intermediate"
+                value="intermediate"
+              />
+              <label for="difficulty-intermediate" class="option"
+                >Intermediate</label
+              >
+              <input
+                class="selectopt"
+                name="difficulty"
+                type="radio"
+                id="difficulty-expert"
+                value="expert"
+              />
+              <label for="difficulty-expert" class="option">Expert</label>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- Exercise Name Input -->
+        <fieldset class="exercise-name">
+          <legend>Enter Exercise Name (optional)</legend>
+          <input
+            type="text"
+            name="exercise_name"
+            placeholder="Enter exercise name (e.g., Deadlift)"
+            class="dark-input"
+          />
+        </fieldset>
+
+        <!-- Submit Button -->
+        <!-- <button type="submit" class="submit-button">Search Exercise</button> -->
+
+        <!-- HT ML !-->
+        <div class="btnclass">
+          <button type="submit" class="button-28" role="button">
+            Time to sweat!
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Results Section -->
+    <% if (typeof exercises !== 'undefined' && exercises.length > 0) { %>
+    <div class="results-container">
+      <h2>Exercise Results</h2>
+      <ul class="results-list">
+        <% exercises.forEach(exercise => { %> <% if (exercise.instructions &&
+        exercise.instructions.trim() !== "") { %>
+        <li class="result-item">
+          <h3><%= exercise.name %></h3>
+          <p><strong>Type:</strong> <%= exercise.type %></p>
+          <p><strong>Muscle:</strong> <%= exercise.muscle %></p>
+          <p><strong>Difficulty:</strong> <%= exercise.difficulty %></p>
+          <br />
+          <p><strong>Instructions:</strong> <%= exercise.instructions %></p>
+        </li>
+        <% } %> <% }) %>
+      </ul>
+    </div>
+    <% } else if (typeof exercises !== 'undefined') { %>
+    <p class="no-results">
+      No exercises found. Try adjusting your search criteria.
+    </p>
+    <% } %> <%- include("./partials/footer.ejs") -%>
+  </div>
+</body>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Handle selection for muscle group
+    document.querySelectorAll(".muscle-selection .item").forEach((item) => {
+      item.addEventListener("click", function () {
+        document
+          .querySelectorAll(".muscle-selection .item")
+          .forEach((el) => el.classList.remove("selected"));
+        this.classList.add("selected");
+      });
+    });
+
+    // Handle selection for exercise type and difficulty
+    document.querySelectorAll(".selectopt").forEach((input) => {
+      input.addEventListener("change", function () {
+        let parentDiv = this.closest(".select");
+        parentDiv.querySelectorAll(".option").forEach((label) => {
+          label.classList.remove("selected");
+        });
+        let label = parentDiv.querySelector(`label[for="${this.id}"]`);
+        if (label) {
+          label.classList.add("selected");
+        }
+      });
+    });
+  });
+</script>
