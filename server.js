@@ -228,6 +228,8 @@ passport.deserializeUser(async (id, cb) => {
   }
 });
 
+// this change was done
+
 app.listen(port, () => {
   console.log(`🚀 Server running at http://localhost:${port}`);
 });
